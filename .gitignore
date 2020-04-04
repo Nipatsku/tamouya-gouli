@@ -1,3 +1,5 @@
 tamouya-gouli*
 node_modules
 .env
+output/*
+*.tmp
