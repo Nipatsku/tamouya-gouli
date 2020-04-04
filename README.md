@@ -2,6 +2,10 @@
 https://www.youtube.com/watch?v=R9RnxWmPkxo
 
 
+# TODO
+
+- Auto translate all results to finnish/eng.
+- Compile results and display nicely.
 
 # Memo
 
