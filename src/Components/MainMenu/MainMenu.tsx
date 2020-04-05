@@ -90,6 +90,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <div className='row' key={i}>
                     <Text>{result.local}</Text>
                     <Flag language={result.language} size={16}/>
+                    <Text>({result.translation})</Text>
                 </div>
             )}
         </div>
