@@ -2,6 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import "./styles.css";
+import { MainMenu } from './Components/MainMenu/MainMenu'
 
 interface Props {}
 interface State {}
@@ -11,9 +12,7 @@ class App extends React.Component<Props, State> {
         this.state = {}
     }
     render() {
-        return <div>
-            Hello World!
-        </div>
+        return <MainMenu/>
     }
 }
 
