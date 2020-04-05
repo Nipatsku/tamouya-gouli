@@ -9,6 +9,7 @@ Web site which shows "results":
     * Show flags?
     * Finnish translation as well as local text
 - Once a day, when server is connected, allows inputting a word (via Microphone).
+    * Afterwards redeployment is necessary.
 
 Front end: React, Hooks?
 Back end: express
