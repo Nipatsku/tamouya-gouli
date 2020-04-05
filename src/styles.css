@@ -10,6 +10,16 @@ h1 {
     font-style: italic;
     font-weight: bold;
 }
+.listStart {
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-color: black;
+    border-style: solid;
+    padding-bottom: 2px;
+    margin-bottom: 16px;
+}
 
 .expand {
     width: 100%;

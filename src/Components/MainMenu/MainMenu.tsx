@@ -82,7 +82,7 @@ export class MainMenu extends React.Component<Props, State> {
         const { inputLanguage, input, results } = applicationState
         return <div className='column'>
             <Title level={3}>Official translations for...</Title>
-            <div className='row'>
+            <div className='row listStart'>
                 <Text className='speechAsText'>"{input}"</Text>
                 <Flag language={inputLanguage} size={24}/>
             </div>

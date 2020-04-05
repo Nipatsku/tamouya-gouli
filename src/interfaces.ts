@@ -1,5 +1,8 @@
 
-export type Language = string
+export type Language = {
+    Name: string,
+    Code: string
+}
 
 export interface Result {
     language: Language

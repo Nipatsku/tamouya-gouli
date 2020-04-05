@@ -37,7 +37,9 @@ app.get('/u-there', (req, res) => {
     setTimeout(() => res.send( 'we here' ), 100)
 })
 app.get('/state', (req, res) => {
-    res.send( application.getState() )
+    res.send( application.getState( logger ) )
 })
+
+application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
 
 app.listen(port, () => console.log(`Server running with port: ${port}`))
