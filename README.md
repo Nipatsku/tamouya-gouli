@@ -1,6 +1,17 @@
 
 https://www.youtube.com/watch?v=R9RnxWmPkxo
 
+# Concept
+
+Web site which shows "results":
+- Input word
+- List of output results
+    * Show flags?
+    * Finnish translation as well as local text
+- Once a day, when server is connected, allows inputting a word (via Microphone).
+
+Front end: React, Hooks?
+Back end: express
 
 # TODO
 
