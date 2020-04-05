@@ -22,7 +22,8 @@ export class Flag extends React.Component<Props, State> {
         this.state = {
             country: countryFlags.find( info =>
                 props.language.Code.includes( info.short ) ||
-                props.language.Name === info.long
+                // TODO: Serbian vs Serbia
+                ( info.long.length > 0 && props.language.Name.includes( info.long ) )
             )
         }
     }
@@ -31,7 +32,7 @@ export class Flag extends React.Component<Props, State> {
         const { country } = this.state
         size = size !== undefined ? size : 32
         style = style !== undefined ? style : 'shiny'
-        const tooltip = country ? country.long : language+'?'
+        const tooltip = country ? country.long : language.Name
         // Doesn't look nice for some reason ...
         // return <Tooltip title={ tooltip }>
         return country ?
