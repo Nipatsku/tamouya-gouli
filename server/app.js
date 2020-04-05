@@ -1,13 +1,26 @@
 // Application logic implementation.
 
-let results = [
-    'test',
-    'test2',
-    'test3'
-]
-const getResults = () => results
+let state = {
+    /**
+     * Optional!
+     */
+    inputLanguage: 'en-GB',
+    /**
+     * Optional!
+     * Generated with speech to text according to inputLanguage.
+     */
+    input: 'aamyebloeaaa',
+    results: [
+        {
+            language: 'en-GB',
+            local: 'this is fokin shit mate',
+            translation: 'vittu mitä paskaa'
+        }
+    ]
+}
+const getState = () => state
 
 
 
 
-exports.getResults = getResults
+exports.getState = getState

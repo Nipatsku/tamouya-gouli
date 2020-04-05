@@ -5,6 +5,8 @@ https://www.youtube.com/watch?v=R9RnxWmPkxo
 
 Web site which shows "results":
 - Input word
+    * User selects language of input speech (optional?)
+    * If specified, program will use speech to text to display input text.
 - List of output results
     * Show flags?
     * Finnish translation as well as local text

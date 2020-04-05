@@ -2,16 +2,15 @@ import * as React from "react";
 import { Button, Layout, Typography, Icon, Input, Affix, Tag } from "antd/lib"
 const { Title, Text } = Typography
 import { Loading } from '../Common/Loading'
+import { ApplicationState } from "../../interfaces";
+import { Flag } from '../Common/Flag'
 
 const SERVER_ADDRESS = `http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}`
 
 interface Props {}
 interface State {
     serverState: 'loading' | 'offline' | 'online',
-    results: undefined | Result[]
-}
-interface Result {
-    
+    applicationState: undefined | ApplicationState
 }
 export class MainMenu extends React.Component<Props, State> {
     constructor( props: Props ) {
@@ -19,7 +18,7 @@ export class MainMenu extends React.Component<Props, State> {
         this.connect()
         this.state = {
             serverState: 'loading',
-            results: undefined
+            applicationState: undefined
         }
     }
     handleServerError = ( e: Error ) => {
@@ -40,19 +39,19 @@ export class MainMenu extends React.Component<Props, State> {
                     console.log( 'Server online' )
                     this.setState({ serverState: 'online' })
                     // Get active results if any from server.
-                    this.getResults()
+                    this.getApplicationState()
                 }
             } )
             .catch( this.handleServerError )
     }
-    getResults() {
+    getApplicationState() {
         fetch(
-            SERVER_ADDRESS + '/results',
+            SERVER_ADDRESS + '/state',
             { mode: 'cors' }
         )
             .then( r => r.json() )
-            .then( results => {
-                this.setState({ results })
+            .then( applicationState => {
+                this.setState({ applicationState })
             } )
             .catch( this.handleServerError )
     }
@@ -77,8 +76,21 @@ export class MainMenu extends React.Component<Props, State> {
         </div>
     }
     renderServerOnline() {
+        const { applicationState } = this.state
         return <div>
-
+            { applicationState && this.renderApplicationState( applicationState ) }
+        </div>
+    }
+    renderApplicationState( applicationState: ApplicationState ) {
+        const { inputLanguage, input, results } = applicationState
+        return <div className='column'>
+            <div className='row'>
+                <Text>{input}</Text>
+                <Flag language={inputLanguage}/>
+            </div>
+            {results.map(( result, i ) =>
+                <Text key={i}>{result.local}</Text>
+            )}
         </div>
     }
 }

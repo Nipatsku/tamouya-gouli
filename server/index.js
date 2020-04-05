@@ -36,8 +36,8 @@ app.get('/u-there', (req, res) => {
     // Respond that we are indeed here.
     setTimeout(() => res.send( 'we here' ), 100)
 })
-app.get('/results', (req, res) => {
-    res.send( application.getResults() )
+app.get('/state', (req, res) => {
+    res.send( application.getState() )
 })
 
 app.listen(port, () => console.log(`Server running with port: ${port}`))

@@ -12,3 +12,10 @@
     transform: translate(-50%, -50%);
     position: absolute;
 }
+
+.column .row {
+    display: flex;
+    align-items: center;
+}
+.column { flex-direction: column; }
+.row { flex-direction: row; }
