@@ -1,0 +1,30 @@
+{
+    "rulesDirectory": [
+        "node_modules/tslint-microsoft-contrib"
+    ],
+    "extends": [
+        "tslint:recommended"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "test/**/*"
+        ]
+    },
+    "rules": {
+        "no-duplicate-imports": true,
+        "no-relative-imports": false,
+        "ordered-imports": false,
+        "semicolon": [
+            false
+        ],
+        "no-empty-interface": false,
+        "interface-name": false,
+        "trailing-comma": false,
+        "member-access": false,
+        "curly": false,
+        "variable-name": false,
+        "one-variable-per-declaration": false,
+        "object-literal-sort-keys": false,
+        "only-arrow-functions": false
+    }
+}
