@@ -30,3 +30,8 @@ https://cloud.google.com/speech-to-text/
 https://cloud.google.com/speech-to-text/docs/languages
 https://en.wikipedia.org/wiki/Languages_of_Guinea
 https://console.cloud.google.com/home/dashboard?project=tamouya-gouli
+
+# Honourable mentions
+
+- Google
+- https://www.countryflags.io/

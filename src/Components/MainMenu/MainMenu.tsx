@@ -64,9 +64,6 @@ export class MainMenu extends React.Component<Props, State> {
             {serverState === 'loading' ?
                 <Loading/> :
                 <div>
-                    <Title>
-                        Tamouya Gouli
-                    </Title>
                     {serverState === 'offline' ?
                         <Text>Server offline</Text> :
                         this.renderServerOnline()
@@ -84,12 +81,16 @@ export class MainMenu extends React.Component<Props, State> {
     renderApplicationState( applicationState: ApplicationState ) {
         const { inputLanguage, input, results } = applicationState
         return <div className='column'>
+            <Title level={3}>Official translations for...</Title>
             <div className='row'>
-                <Text>{input}</Text>
-                <Flag language={inputLanguage}/>
+                <Text className='speechAsText'>"{input}"</Text>
+                <Flag language={inputLanguage} size={24}/>
             </div>
             {results.map(( result, i ) =>
-                <Text key={i}>{result.local}</Text>
+                <div className='row' key={i}>
+                    <Text>{result.local}</Text>
+                    <Flag language={result.language} size={16}/>
+                </div>
             )}
         </div>
     }
