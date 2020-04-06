@@ -84,13 +84,14 @@ export class MainMenu extends React.Component<Props, State> {
             <Title level={3}>Official translations for...</Title>
             <div className='row listStart'>
                 <Text className='speechAsText'>"{input}"</Text>
-                <Flag language={inputLanguage} size={24}/>
             </div>
             {results.map(( result, i ) =>
                 <div className='row' key={i}>
-                    <Text>{result.local}</Text>
-                    <Flag language={result.language} size={16}/>
-                    <Text>({result.translation})</Text>
+                    <Text>{result.language.Name}:</Text>
+                    <Text className='speechAsText'>{result.local}</Text>
+                    { inputLanguage === result.language &&
+                        <Text>({result.translation})</Text>
+                    }
                 </div>
             )}
         </div>

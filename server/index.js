@@ -40,6 +40,7 @@ app.get('/state', (req, res) => {
     res.send( application.getState( logger ) )
 })
 
-application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
+application.setStateFromText( logger, 'sotku', 'fi' )
+// application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
 
 app.listen(port, () => console.log(`Server running with port: ${port}`))

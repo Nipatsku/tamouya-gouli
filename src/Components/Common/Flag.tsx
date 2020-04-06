@@ -22,7 +22,7 @@ export class Flag extends React.Component<Props, State> {
         this.state = {
             country: countryFlags.find( info =>
                 props.language.Code.includes( info.short ) ||
-                // TODO: Serbian vs Serbia
+                // TODO: This doesn't work xd | country name !== language name
                 ( info.long.length > 0 && props.language.Name.includes( info.long ) )
             )
         }
