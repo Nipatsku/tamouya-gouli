@@ -1,6 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const expressip = require('express-ip');
+const fs = require('fs')
+const path = require('path');
 const { createLogger, transports, format } = require('winston');
 const application = require('./app')
 
@@ -29,18 +31,33 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.get('/u-there', (req, res) => {
+app.get('/u-there', async (req, res) => {
     // Get info about request sender.
     const ipInfo = req.ipInfo
     logger.info( `Received check request\n${JSON.stringify(ipInfo)}` )
     // Respond that we are indeed here.
     setTimeout(() => res.send( 'we here' ), 100)
 })
-app.get('/state', (req, res) => {
+app.get('/state', async (req, res) => {
     res.send( application.getState( logger ) )
 })
+app.get('/text-to-speech', async (req, res) => {
+    const inputText = req.query.text
+    const inputLanguageCode = req.query.languageCode
+    const mp3Url = await application.useTextToSpeech( logger, inputText, inputLanguageCode )
+    if ( ! mp3Url ) {
+      res.status( 400 ).send({
+        message: 'Unknown error :('
+      })
+      return
+    }
+    const filePath = path.join(__dirname, mp3Url);
+    res.sendFile( filePath )
+    const readStream = fs.createReadStream( filePath );
+    readStream.pipe(res);
+})
 
-application.setStateFromText( logger, 'sotku', 'fi' )
+application.setStateFromText( logger, 'tamouya gouli', 'fi' )
 // application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
 
 app.listen(port, () => console.log(`Server running with port: ${port}`))

@@ -2,8 +2,10 @@ import * as React from "react";
 import { Button, Layout, Typography, Icon, Input, Affix, Tag } from "antd/lib"
 const { Title, Text } = Typography
 import { Loading } from '../Common/Loading'
-import { ApplicationState } from "../../interfaces";
+import { ApplicationState, Result } from "../../interfaces";
 import { Flag } from '../Common/Flag'
+import { playAudioStream, readAudioStream } from "../../audio";
+import { SoundOutlined } from '@ant-design/icons'
 
 const SERVER_ADDRESS = `http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}`
 
@@ -55,6 +57,16 @@ export class MainMenu extends React.Component<Props, State> {
             } )
             .catch( this.handleServerError )
     }
+    playResultSound( result: Result ) {
+        fetch(
+            SERVER_ADDRESS + `/text-to-speech?text=${result.local}&languageCode=${result.language.Code}`
+        )
+            .then( readAudioStream)
+            .then( playAudioStream )
+            .catch( e => {
+                console.error( e )
+            })
+    }
 
 
 
@@ -89,6 +101,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <div className='row' key={i}>
                     <Text>{result.language.Name}:</Text>
                     <Text className='speechAsText'>{result.local}</Text>
+                    <SoundOutlined onClick={() => this.playResultSound( result )} />
                     { inputLanguage === result.language &&
                         <Text>({result.translation})</Text>
                     }
