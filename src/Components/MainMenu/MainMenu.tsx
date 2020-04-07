@@ -12,7 +12,8 @@ const SERVER_ADDRESS = `http://${process.env.REACT_APP_SERVER_IP}:${process.env.
 interface Props {}
 interface State {
     serverState: 'loading' | 'offline' | 'online',
-    applicationState: undefined | ApplicationState
+    applicationState: undefined | ApplicationState,
+    unsupportedLanguageCodes: undefined | string[]
 }
 export class MainMenu extends React.Component<Props, State> {
     constructor( props: Props ) {
@@ -20,7 +21,8 @@ export class MainMenu extends React.Component<Props, State> {
         this.connect()
         this.state = {
             serverState: 'loading',
-            applicationState: undefined
+            applicationState: undefined,
+            unsupportedLanguageCodes: undefined
         }
     }
     handleServerError = ( e: Error ) => {
@@ -54,6 +56,21 @@ export class MainMenu extends React.Component<Props, State> {
             .then( r => r.json() )
             .then( applicationState => {
                 this.setState({ applicationState })
+                this.sortUnsupportedTextToSpeech()
+            } )
+            .catch( this.handleServerError )
+    }
+    sortUnsupportedTextToSpeech() {
+        fetch(
+            SERVER_ADDRESS + '/unsupported-languages-text-to-speech',
+            { mode: 'cors' }
+        )
+            .then( r => r.json() )
+            .then( ( unsupportedLanguages: { languageCode: string }[] ) => {
+                console.log(unsupportedLanguages)
+                this.setState({
+                    unsupportedLanguageCodes: unsupportedLanguages.map( obj => obj.languageCode )
+                })
             } )
             .catch( this.handleServerError )
     }
@@ -91,17 +108,25 @@ export class MainMenu extends React.Component<Props, State> {
         </div>
     }
     renderApplicationState( applicationState: ApplicationState ) {
+        const { unsupportedLanguageCodes } = this.state
         const { inputLanguage, input, results } = applicationState
+        // Sort rendered results so that unsupported languages are last.
+        const isResultSupported = ( result: Result ): boolean =>
+            unsupportedLanguageCodes === undefined ||
+            ! unsupportedLanguageCodes.includes( result.language.Code )
+        const sortedResults = results.filter( isResultSupported )
+            .concat( results.filter( result => ! isResultSupported( result ) ) )
+
         return <div className='column'>
             <Title level={3}>Official translations for...</Title>
             <div className='row listStart'>
                 <Text className='speechAsText'>"{input}"</Text>
             </div>
-            {results.map(( result, i ) =>
+            {sortedResults.map(( result, i ) =>
                 <div className='row' key={i}>
                     <Text>{result.language.Name}:</Text>
                     <Text className='speechAsText'>{result.local}</Text>
-                    <SoundOutlined onClick={() => this.playResultSound( result )} />
+                    {isResultSupported( result ) && <SoundOutlined onClick={() => this.playResultSound( result )} />}
                     { inputLanguage === result.language &&
                         <Text>({result.translation})</Text>
                     }

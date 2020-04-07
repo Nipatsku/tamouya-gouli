@@ -3,8 +3,10 @@ const fs = require('fs')
 const speech = require('@google-cloud/speech');
 const { TranslationServiceClient } = require('@google-cloud/translate');
 const textToSpeech = require('@google-cloud/text-to-speech');
+const Datastore = require('nedb')
 const languageCodes = require('../languageCodes.json')
 const projectId = process.env.PROJECT_ID
+const db = new Datastore({ filename: 'database', autoload: true })
 // Create SpeechToText client.
 const gSpeechToText = new speech.SpeechClient({
     projectId,
@@ -191,6 +193,18 @@ const useTextToSpeech = async ( logger, inputText, inputLanguageCode ) => {
     } catch ( e ) {
         logger.error(`Error while synthesizing text to speech`)
         logger.error(`${e.message}`)
+        // Check if speech is unsupported for this language.
+        if ( e.message.includes('INVALID_ARGUMENT') ) {
+            logger.info(`Marking language (${inputLanguageCode}) as not supported.`)
+            const existing = await new Promise( resolve => db.findOne({ supportsSpeechToText: false, languageCode: inputLanguageCode }, (err, docs) => resolve( docs )) )
+            if ( ! existing ) {
+                db.insert({ supportsSpeechToText: false, languageCode: inputLanguageCode })
+            }
+            
+            setTimeout(() => {
+                getUnsupportedTextToSpeechLanguages( logger )
+            }, 100)
+        }
         return
     }
     try {
@@ -203,6 +217,13 @@ const useTextToSpeech = async ( logger, inputText, inputLanguageCode ) => {
     }
     return fileName
 }
+const getUnsupportedTextToSpeechLanguages = async ( logger ) => {
+    return await new Promise(( resolve, reject ) => {
+        db.find({ supportsSpeechToText: false }, ( err, docs ) => {
+            resolve( docs )
+        })
+    })
+}
 
 
 
@@ -210,3 +231,4 @@ exports.getState = getState
 exports.setStateFromText = setStateFromText
 exports.setStateFromFlacFile = setStateFromFlacFile
 exports.useTextToSpeech = useTextToSpeech
+exports.getUnsupportedTextToSpeechLanguages = getUnsupportedTextToSpeechLanguages

@@ -56,6 +56,10 @@ app.get('/text-to-speech', async (req, res) => {
     const readStream = fs.createReadStream( filePath );
     readStream.pipe(res);
 })
+app.get('/unsupported-languages-text-to-speech', async (req, res) => {
+  const result = await application.getUnsupportedTextToSpeechLanguages( logger )
+  res.send( result )
+})
 
 application.setStateFromText( logger, 'tamouya gouli', 'fi' )
 // application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )

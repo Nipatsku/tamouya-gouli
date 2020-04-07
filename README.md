@@ -18,8 +18,8 @@ Back end: express
 
 # TODO
 
-- Auto translate all results to finnish/eng.
-- Compile results and display nicely.
+- Deploy github
+- npm start --<word>
 
 # Memo
 
