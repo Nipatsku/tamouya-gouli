@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Nipatsku/tamouya-gouli/precache-manifest.f6784f9b5fda366708973a666a06e0bb.js"
+  "/tamouya-gouli/precache-manifest.28b8c59ff6000f8e55e4cea1c8786dd6.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/Nipatsku/tamouya-gouli/index.html", {
+workbox.routing.registerNavigationRoute("/tamouya-gouli/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
