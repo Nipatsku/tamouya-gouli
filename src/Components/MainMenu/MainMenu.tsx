@@ -91,6 +91,10 @@ export class MainMenu extends React.Component<Props, State> {
     render() {
         const { serverState } = this.state
         return <div className='expand'>
+            <img
+                className='background'
+                src='https://f4.bcbits.com/img/0012867325_10.jpg'
+            />
             {serverState === 'loading' ?
                 <Loading/> :
                 <div>
