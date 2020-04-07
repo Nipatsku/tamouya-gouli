@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start:dev": "cross-env NODE_ENV=development node index.js",
+    "start:production": "cross-env NODE_ENV=production node index.js",
+    "start": "npm start:dev"
   },
   "dependencies": {
     "@google-cloud/speech": "^3.6.0",
@@ -13,7 +15,11 @@
     "express": "^4.17.1",
     "express-ip": "^1.0.4",
     "nedb": "^1.8.0",
+    "ngrok": "^3.2.7",
     "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   },
   "author": "",
   "license": "ISC"

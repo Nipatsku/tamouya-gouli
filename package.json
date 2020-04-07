@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/Nipatsku/tamouya-gouli/issues"
   },
-  "homepage": "https://github.com/Nipatsku/tamouya-gouli#readme",
+  "homepage": "http://nipatsku.github.io/tamouya-gouli",
   "dependencies": {
     "@ant-design/icons": "^4.0.5",
     "@google-cloud/text-to-speech": "^2.3.0",

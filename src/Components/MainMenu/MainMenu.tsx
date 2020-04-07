@@ -7,7 +7,8 @@ import { Flag } from '../Common/Flag'
 import { playAudioStream, readAudioStream } from "../../audio";
 import { SoundOutlined } from '@ant-design/icons'
 
-const SERVER_ADDRESS = `http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}`
+const SERVER_ADDRESS = `https://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}`
+console.log( SERVER_ADDRESS )
 
 interface Props {}
 interface State {
@@ -94,7 +95,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <Loading/> :
                 <div>
                     {serverState === 'offline' ?
-                        <Text>Server offline</Text> :
+                        <Text>Server is offline... more "aamuja" some other time</Text> :
                         this.renderServerOnline()
                     }
                 </div>

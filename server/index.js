@@ -4,6 +4,7 @@ const expressip = require('express-ip');
 const fs = require('fs')
 const path = require('path');
 const { createLogger, transports, format } = require('winston');
+const ngrok = require('ngrok')
 const application = require('./app')
 
 const logger = createLogger({
@@ -24,10 +25,15 @@ const logger = createLogger({
 
 const app = express()
 const port = process.env.PORT
+logger.info(`Start server, mode: ${process.env.NODE_ENV}, port: ${port}`)
 
 app.use(expressip().getIpInfoMiddleware);
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", [ "http://localhost:3000" ]);
+    res.header("Access-Control-Allow-Origin", [
+      process.env.NODE_ENV === 'development' ?
+        "http://localhost:3000" :
+        'https://nipatsku.github.io'
+    ]);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -61,7 +67,24 @@ app.get('/unsupported-languages-text-to-speech', async (req, res) => {
   res.send( result )
 })
 
-application.setStateFromText( logger, 'tamouya gouli', 'fi' )
+let start
+
+if ( process.env.NODE_ENV === 'production' ) {
+  // ngrok.
+  ;(async () => {
+    const url = await ngrok.connect( port )
+    logger.info('\n' + `NGROK ${url}` + '\n')
+    start()
+    app.listen(port, () => console.log(`Server running with port: ${port}`))
+  })()
+} else {
+  start()
+  app.listen(port, () => console.log(`Server running with port: ${port}`))
+}
+
+start = () => {
+  application.setStateFromText( logger, 'tamouya gouli', 'fi' )
+}
+
 // application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
 
-app.listen(port, () => console.log(`Server running with port: ${port}`))
