@@ -26,8 +26,15 @@ h1 {
     padding-bottom: 2px;
     margin-bottom: 16px;
 }
-.background {
+.backgroundDiv {
     position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.background {
     height: 100%;
     z-index: -1;
     opacity: 0.3;
