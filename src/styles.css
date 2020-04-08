@@ -12,10 +12,7 @@ h1 {
     margin-left: 6px;
     margin-right: 6px
 }
-.tamouyaGouli {
-    width: 0px;
-    height: 0px;
-    display: none;
+.gouli {
 }
 .speechAsText {
     font-style: italic;

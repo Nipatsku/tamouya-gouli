@@ -7,7 +7,7 @@ import { Flag } from '../Common/Flag'
 import { playAudioStream, readAudioStream } from "../../audio";
 import { SoundOutlined } from '@ant-design/icons'
 
-const SERVER_ADDRESS = `https://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}`
+const SERVER_ADDRESS = `https://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT ? process.env.REACT_APP_SERVER_PORT : ''}`
 console.log( SERVER_ADDRESS )
 
 interface Props {}
