@@ -23,6 +23,8 @@ const logger = createLogger({
     ]
 });
 
+const args = process.argv.slice(2);
+
 const app = express()
 const port = process.env.PORT
 logger.info(`Start server, mode: ${process.env.NODE_ENV}, port: ${port}`)
@@ -74,6 +76,15 @@ if ( process.env.NODE_ENV === 'production' ) {
   ;(async () => {
     const url = await ngrok.connect( port )
     logger.info('\n' + `NGROK ${url}` + '\n')
+
+    const envProductionFile = '../.env.production'
+    logger.info(`Setting client production env URL to ngrok url`)
+    let envProduction = fs.readFileSync( envProductionFile, 'utf8' )
+    envProduction = envProduction
+      .replace( /REACT_APP_SERVER_IP=(.*\.ngrok\.io)/m, 'REACT_APP_SERVER_IP='+url )
+      .replace(/\"/gm, '')
+    fs.writeFileSync( envProductionFile, envProduction, 'utf8' )
+
     start()
     app.listen(port, () => console.log(`Server running with port: ${port}`))
   })()
@@ -83,7 +94,9 @@ if ( process.env.NODE_ENV === 'production' ) {
 }
 
 start = () => {
-  application.setStateFromText( logger, 'tamouya gouli', 'fi' )
+  const text = args[0] || 'motimäki'
+  const lanCode = args[1] || 'fi'
+  application.setStateFromText( logger, text, lanCode )
 }
 
 // application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
