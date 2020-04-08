@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development node index.js",
     "start:production": "cross-env NODE_ENV=production node index.js",
-    "start": "npm start:dev"
+    "start": "npm run start:dev"
   },
   "dependencies": {
     "@google-cloud/speech": "^3.6.0",

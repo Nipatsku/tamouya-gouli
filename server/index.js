@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ path: process.env.NODE_ENV === 'development' ? './.env.development' : '.env.production' })
 const express = require('express')
 const expressip = require('express-ip');
 const fs = require('fs')
@@ -28,6 +28,9 @@ const args = process.argv.slice(2);
 const app = express()
 const port = process.env.PORT
 logger.info(`Start server, mode: ${process.env.NODE_ENV}, port: ${port}`)
+if ( !port ) {
+  process.exit()
+}
 
 app.use(expressip().getIpInfoMiddleware);
 app.use(function(req, res, next) {
@@ -87,8 +90,11 @@ if ( process.env.NODE_ENV === 'production' ) {
     app.listen(port, () => console.log(`Server running with port: ${port}`))
   })()
 } else {
-  start()
-  app.listen(port, () => console.log(`Server running with port: ${port}`))
+  ;(async () => {
+    await new Promise(resolve => setTimeout(resolve, 100))
+    start()
+    app.listen(port, () => console.log(`Server running with port: ${port}`))
+  })()
 }
 
 start = () => {
