@@ -10,10 +10,10 @@ export const readAudioStream = ( res: Response ) => {
         });
 }
 
+export const audio = new Audio()
 export const playAudioStream = ( res: ReadableStreamReadResult<Uint8Array> ) => {
     const blob = new Blob([res.value!], { type: 'audio/mp3' });
     const url = window.URL.createObjectURL(blob)
-    const audio = new Audio();
     audio.src = url;
     audio.play();
 }

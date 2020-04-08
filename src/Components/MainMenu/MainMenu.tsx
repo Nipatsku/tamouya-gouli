@@ -4,7 +4,7 @@ const { Title, Text } = Typography
 import { Loading } from '../Common/Loading'
 import { ApplicationState, Result } from "../../interfaces";
 import { Flag } from '../Common/Flag'
-import { playAudioStream, readAudioStream } from "../../audio";
+import { playAudioStream, readAudioStream, audio } from "../../audio";
 import { SoundOutlined } from '@ant-design/icons'
 
 const SERVER_ADDRESS = `${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT ? process.env.REACT_APP_SERVER_PORT : ''}`
@@ -78,6 +78,10 @@ export class MainMenu extends React.Component<Props, State> {
             .catch( this.handleServerError )
     }
     playResultSound( result: Result ) {
+        // Hack - iPhone restricts playing audio that is not based on user interaction.
+        // Audio.play() must be called (once for element) directly in event handler for it to work.
+        audio.play()
+
         fetch(
             SERVER_ADDRESS + `/text-to-speech?text=${result.local}&languageCode=${result.language.Code}`
         )
