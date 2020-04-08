@@ -95,18 +95,18 @@ export class MainMenu extends React.Component<Props, State> {
                 const t = 2.0 * (window.performance.now( ) - tStart) / 1000
 
                 let rotateX: number = 0
-                let rotateY: number = -Math.sin( t ) * 25
+                let rotateY: number = 0
                 let rotateZ: number = -10 + Math.sin( t ) * 5
                 let skewX: number = 0
-                let skewY: number = 0
+                let skewY: number = Math.sin( t ) * 12
                 let scale: number = 1 + Math.sin( t * 2 ) * .15
                 let translateX: number = -100 + Math.sin( t ) * 150
                 let translateY: number = 40 + Math.abs( Math.sin( t ) ) * 100
 
                 let transform = ``
                 transform += `translateX(${translateX}px) translateY(${translateY}px) `
-                transform += `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) ` 
                 transform += `skewX(${skewX}deg) skewY(${skewY}deg) `
+                transform += `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) ` 
                 transform += `scaleX(${scale}) scaleY(${scale}) `
                 soumah.style.transform = transform
                 requestAnimationFrame( animate )
