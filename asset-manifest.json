@@ -1,13 +1,13 @@
 {
   "main.css": "/tamouya-gouli/static/css/main.b11ded0f.chunk.css",
-  "main.js": "/tamouya-gouli/static/js/main.64e49951.chunk.js",
-  "main.js.map": "/tamouya-gouli/static/js/main.64e49951.chunk.js.map",
-  "static/js/1.cc99d235.chunk.js": "/tamouya-gouli/static/js/1.cc99d235.chunk.js",
-  "static/js/1.cc99d235.chunk.js.map": "/tamouya-gouli/static/js/1.cc99d235.chunk.js.map",
+  "main.js": "/tamouya-gouli/static/js/main.b5f517bd.chunk.js",
+  "main.js.map": "/tamouya-gouli/static/js/main.b5f517bd.chunk.js.map",
+  "static/js/1.e64965f9.chunk.js": "/tamouya-gouli/static/js/1.e64965f9.chunk.js",
+  "static/js/1.e64965f9.chunk.js.map": "/tamouya-gouli/static/js/1.e64965f9.chunk.js.map",
   "runtime~main.js": "/tamouya-gouli/static/js/runtime~main.26079a4d.js",
   "runtime~main.js.map": "/tamouya-gouli/static/js/runtime~main.26079a4d.js.map",
   "static/css/main.b11ded0f.chunk.css.map": "/tamouya-gouli/static/css/main.b11ded0f.chunk.css.map",
   "index.html": "/tamouya-gouli/index.html",
-  "precache-manifest.b62e5aa45bc46eea610375102093a484.js": "/tamouya-gouli/precache-manifest.b62e5aa45bc46eea610375102093a484.js",
+  "precache-manifest.f22a85bdb818f353db9debca043da5f2.js": "/tamouya-gouli/precache-manifest.f22a85bdb818f353db9debca043da5f2.js",
   "service-worker.js": "/tamouya-gouli/service-worker.js"
 }
