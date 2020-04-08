@@ -80,9 +80,7 @@ if ( process.env.NODE_ENV === 'production' ) {
     const envProductionFile = '../.env.production'
     logger.info(`Setting client production env URL to ngrok url`)
     let envProduction = fs.readFileSync( envProductionFile, 'utf8' )
-    envProduction = envProduction
-      .replace( /REACT_APP_SERVER_IP=(.*\.ngrok\.io)/m, 'REACT_APP_SERVER_IP='+url )
-      .replace(/\"/gm, '')
+    envProduction = 'REACT_APP_SERVER_IP='+url
     fs.writeFileSync( envProductionFile, envProduction, 'utf8' )
 
     start()
