@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tamouya-gouli/precache-manifest.d6eb8e478dbb15814c03d826b28f0f5c.js"
+  "/tamouya-gouli/precache-manifest.e43a36caddd5d424b7569fb7bd0f5597.js"
 );
 
 workbox.clientsClaim();
