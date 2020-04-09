@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "deploy": "npm run build && gh-pages -d build",
     "host-server": "cd server && npm run start:production",
-    "host-client": "sleep 8 && npm run deploy",
+    "host-client": "sleep 15 && npm run deploy",
     "host": "run-p host-server host-client"
   },
   "repository": {

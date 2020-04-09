@@ -98,7 +98,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 }
 
 start = () => {
-  const text = args[0] || 'motimäki'
+  const text = args[0] || 'raekuuro'
   const lanCode = args[1] || 'fi'
   application.setStateFromText( logger, text, lanCode )
 }

@@ -94,9 +94,14 @@ export class MainMenu extends React.Component<Props, State> {
     componentDidMount() {
         // MLG animations.
         const animate = ( ) => {
-            const soumah = this.refSoumah.current
-            if ( soumah ) {
-                const t = 2.0 * (window.performance.now( ) - tStart) / 1000
+            // const soumah = this.refSoumah.current
+            const objects = document.getElementsByClassName('soumah')
+            // if ( soumah ) {
+            for ( let i = 0; i < objects.length; i ++ ) {
+                const soumah = objects[i] as any
+                const attr_index = soumah.getAttribute('index')
+                const attr_scale = soumah.getAttribute('scale')
+                const t = 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
 
                 let rotateX: number = 0
                 let rotateY: number = 0
@@ -112,16 +117,21 @@ export class MainMenu extends React.Component<Props, State> {
                 transform += `skewX(${skewX}deg) skewY(${skewY}deg) `
                 transform += `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) ` 
                 transform += `scaleX(${scale}) scaleY(${scale}) `
+                if ( attr_scale )
+                    transform += `scaleX(${attr_scale}) scaleY(${attr_scale}) `
                 soumah.style.transform = transform
-                requestAnimationFrame( animate )
             }
+            requestAnimationFrame( animate )
         }
         const tStart = window.performance.now()
         animate()
     }
-
-
-
+    avatars = [
+        {
+            scale: 1, src: ['wandelsoumah_avatar.png', 'lagus.png']
+        },
+        // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
+    ]
     render() {
         const { serverState } = this.state
         return <div className='expand'>
@@ -130,11 +140,15 @@ export class MainMenu extends React.Component<Props, State> {
                     className='background'
                     src='wandelsoumah_bg.png'
                 />
-                <img
-                    className='soumah'
-                    src='wandelsoumah_avatar.png'
-                    ref={ this.refSoumah }
-                />
+                {this.avatars.map((avatar, i) => {
+                    const props = { scale: avatar.scale, index: i }
+                    return avatar.src.map((url, i2) => <img
+                        key={i+'a'+i2}
+                        className='soumah'
+                        src={url}
+                        {...props}
+                ></img>)
+                })}
             </div>
             {serverState === 'loading' ?
                 <Loading/> :
