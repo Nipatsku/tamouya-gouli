@@ -22,6 +22,10 @@ h1 {
 }
 .gouli {
 }
+.hint {
+    position: fixed;
+    right: 0;
+}
 .speechAsText {
     font-style: italic;
     font-weight: bold;

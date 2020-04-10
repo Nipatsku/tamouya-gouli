@@ -18,10 +18,12 @@ interface State {
 }
 export class MainMenu extends React.Component<Props, State> {
     refSoumah: React.RefObject<HTMLImageElement>
+    bgAudio: HTMLAudioElement = new Audio('tamouya_gouli.mp3')
     constructor( props: Props ) {
         super( props )
         this.connect()
         this.refSoumah = React.createRef()
+        this.bgAudio.play()
         this.state = {
             serverState: 'loading',
             applicationState: undefined,
@@ -77,10 +79,18 @@ export class MainMenu extends React.Component<Props, State> {
             } )
             .catch( this.handleServerError )
     }
-    playResultSound( result: Result ) {
+    first = true
+    onAnyClick = () => {
         // Hack - iPhone restricts playing audio that is not based on user interaction.
         // Audio.play() must be called (once for element) directly in event handler for it to work.
-        audio.play()
+        if (this.first) {
+            audio.play()
+            this.bgAudio.play()
+            this.first = false
+        }
+    }
+    playResultSound( result: Result ) {
+        this.onAnyClick()
 
         fetch(
             SERVER_ADDRESS + `/text-to-speech?text=${result.local}&languageCode=${result.language.Code}`
@@ -101,7 +111,7 @@ export class MainMenu extends React.Component<Props, State> {
                 const soumah = objects[i] as any
                 const attr_index = soumah.getAttribute('index')
                 const attr_scale = soumah.getAttribute('scale')
-                const t = 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
+                const t = 1.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
 
                 let rotateX: number = 0
                 let rotateY: number = 0
@@ -128,18 +138,20 @@ export class MainMenu extends React.Component<Props, State> {
     }
     avatars = [
         {
-            scale: 1, src: ['wandelsoumah_avatar.png', 'lagus.png']
+            scale: 1, src: ['momo.png', 'merkit.png', 'baretti.png']
         },
         // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
     ]
     render() {
         const { serverState } = this.state
-        return <div className='expand'>
-            <div className='backgroundDiv'>
+        return <div className='expand' onClick={() => this.onAnyClick()}>
+            <div className='backgroundDiv' onClick={() => this.onAnyClick()}>
                 <img
+                     onClick={() => this.onAnyClick()}
                     className='background'
                     src='wandelsoumah_bg.png'
                 />
+                <span className='hint'>If music is not playing, click somewhere</span>
                 {this.avatars.map((avatar, i) => {
                     const props = { scale: avatar.scale, index: i }
                     return avatar.src.map((url, i2) => <img
@@ -147,6 +159,7 @@ export class MainMenu extends React.Component<Props, State> {
                         className='soumah'
                         src={url}
                         {...props}
+                        onClick={() => this.onAnyClick()}
                 ></img>)
                 })}
             </div>
