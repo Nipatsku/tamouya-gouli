@@ -26,7 +26,6 @@ export class MainMenu extends React.Component<Props, State> {
         this.connect()
         this.refSoumah = React.createRef()
         this.bgAudio.addEventListener( 'play', () => {
-            console.log('play')
             this.setState({
                 bgAudioStart: window.performance.now()
             })
@@ -113,6 +112,13 @@ export class MainMenu extends React.Component<Props, State> {
     componentDidMount() {
         // MLG animations.
         const animate = ( ) => {
+            requestAnimationFrame( animate )
+            // Check music playing.
+            if ( this.state.bgAudioStart !== undefined && !tStart ) {
+                // start animation.
+                tStart = window.performance.now()
+            }
+
             // const soumah = this.refSoumah.current
             const objects = document.getElementsByClassName('soumah')
             // if ( soumah ) {
@@ -120,7 +126,7 @@ export class MainMenu extends React.Component<Props, State> {
                 const soumah = objects[i] as any
                 const attr_index = soumah.getAttribute('index')
                 const attr_scale = soumah.getAttribute('scale')
-                const t = 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
+                const t = tStart ? 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000 : 0
 
                 let rotateX: number = 0
                 let rotateY: number = 0
@@ -129,7 +135,7 @@ export class MainMenu extends React.Component<Props, State> {
                 let skewY: number = Math.sin( t ) * 12
                 let scale: number = 1 + Math.sin( t * 2 ) * .15
                 let translateX: number = -100 + Math.sin( t ) * 150
-                let translateY: number = 40 + Math.abs( Math.sin( t ) ) * 100
+                let translateY: number = 50 + Math.abs( Math.sin( t ) ) * 100
 
                 let transform = ``
                 transform += `translateX(${translateX}px) translateY(${translateY}px) `
@@ -140,9 +146,8 @@ export class MainMenu extends React.Component<Props, State> {
                     transform += `scaleX(${attr_scale}) scaleY(${attr_scale}) `
                 soumah.style.transform = transform
             }
-            requestAnimationFrame( animate )
         }
-        const tStart = window.performance.now()
+        let tStart: number
         animate()
     }
     avatars = [
@@ -160,7 +165,6 @@ export class MainMenu extends React.Component<Props, State> {
                     className='background'
                     src='wandelsoumah_bg.png'
                 />
-                <span className='hint'>If music is not playing, click somewhere</span>
                 {this.avatars.map((avatar, i) => {
                     const props = { scale: avatar.scale, index: i }
                     return avatar.src.map((url, i2) => <img
@@ -182,7 +186,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <Loading/> :
                 <div className='main'>
                     {serverState === 'offline' ?
-                        <Text>Server is offline... more "aamuja" some other time</Text> :
+                        <Text>Server offline</Text> :
                         this.renderServerOnline()
                     }
                 </div>
