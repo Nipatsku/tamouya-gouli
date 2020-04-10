@@ -25,12 +25,12 @@ export class MainMenu extends React.Component<Props, State> {
         super( props )
         this.connect()
         this.refSoumah = React.createRef()
-        this.bgAudio.addEventListener( 'play', () => {
+        this.bgAudio.addEventListener( 'playing', () => {
             this.setState({
                 bgAudioStart: window.performance.now()
             })
         } )
-        this.bgAudio.play()
+        // this.bgAudio.play()
         
         this.state = {
             serverState: 'loading',
@@ -134,7 +134,7 @@ export class MainMenu extends React.Component<Props, State> {
                 let skewX: number = 0
                 let skewY: number = Math.sin( t ) * 12
                 let scale: number = 1 + Math.sin( t * 2 ) * .15
-                let translateX: number = -100 + Math.sin( t ) * 150
+                let translateX: number = -120 + Math.sin( t ) * 150
                 let translateY: number = 50 + Math.abs( Math.sin( t ) ) * 100
 
                 let transform = ``
