@@ -115,7 +115,7 @@ export class MainMenu extends React.Component<Props, State> {
                 const soumah = objects[i] as any
                 const attr_index = soumah.getAttribute('index')
                 const attr_scale = soumah.getAttribute('scale')
-                const t = 1.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
+                const t = 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000
 
                 let rotateX: number = 0
                 let rotateY: number = 0
@@ -133,7 +133,7 @@ export class MainMenu extends React.Component<Props, State> {
                 transform += `scaleX(${scale}) scaleY(${scale}) `
                 if ( attr_scale )
                     transform += `scaleX(${attr_scale}) scaleY(${attr_scale}) `
-                // soumah.style.transform = transform
+                soumah.style.transform = transform
             }
             requestAnimationFrame( animate )
         }

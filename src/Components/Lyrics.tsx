@@ -53,7 +53,7 @@ export class LyricsComponent extends React.Component<Props, State> {
         return <div className='lines-div'>
             {lines.map(( line, i ) => {
                 const refRecord = line.records.find(record =>
-                    record.delta + line.start >= t    
+                    record.delta + line.start - 1500 >= t    
                 )
                 return <div className='lyrics-line-div'>
                     <span className='lyrics-line'>{ line.text }
