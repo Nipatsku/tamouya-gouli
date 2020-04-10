@@ -16,17 +16,22 @@ interface State {
     serverState: 'loading' | 'offline' | 'online',
     applicationState: undefined | ApplicationState,
     unsupportedLanguageCodes: undefined | string[]
+    bgAudioStart?: number
 }
 export class MainMenu extends React.Component<Props, State> {
     refSoumah: React.RefObject<HTMLImageElement>
-    bgAudioStart: number
     bgAudio: HTMLAudioElement = new Audio('tamouya_gouli.mp3')
     constructor( props: Props ) {
         super( props )
         this.connect()
         this.refSoumah = React.createRef()
+        this.bgAudio.addEventListener( 'play', () => {
+            console.log('play')
+            this.setState({
+                bgAudioStart: window.performance.now()
+            })
+        } )
         this.bgAudio.play()
-        this.bgAudioStart = window.performance.now()
         
         this.state = {
             serverState: 'loading',
@@ -166,12 +171,12 @@ export class MainMenu extends React.Component<Props, State> {
                         onClick={() => this.onAnyClick()}
                 ></img>)
                 })}
-                <div className='lyrics-div'>
+                {this.state.bgAudioStart && <div className='lyrics-div'>
                     <LyricsComponent
                         lyricsFile='lyrics.json'
-                        tStart={this.bgAudioStart}
+                        tStart={this.state.bgAudioStart}
                     />
-                </div>
+                </div>}
             </div>
             {serverState === 'loading' ?
                 <Loading/> :
