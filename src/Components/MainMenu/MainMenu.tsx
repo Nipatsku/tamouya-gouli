@@ -163,7 +163,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <img
                      onClick={() => this.onAnyClick()}
                     className='background'
-                    src='wandelsoumah_bg.png'
+                    src='background.png'
                 />
                 {this.avatars.map((avatar, i) => {
                     const props = { scale: avatar.scale, index: i }
