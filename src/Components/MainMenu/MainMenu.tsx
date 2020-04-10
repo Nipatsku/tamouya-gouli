@@ -6,6 +6,7 @@ import { ApplicationState, Result } from "../../interfaces";
 import { Flag } from '../Common/Flag'
 import { playAudioStream, readAudioStream, audio } from "../../audio";
 import { SoundOutlined } from '@ant-design/icons'
+import { LyricsComponent } from '../Lyrics'
 
 const SERVER_ADDRESS = `${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT ? process.env.REACT_APP_SERVER_PORT : ''}`
 console.log( SERVER_ADDRESS )
@@ -18,12 +19,15 @@ interface State {
 }
 export class MainMenu extends React.Component<Props, State> {
     refSoumah: React.RefObject<HTMLImageElement>
+    bgAudioStart: number
     bgAudio: HTMLAudioElement = new Audio('tamouya_gouli.mp3')
     constructor( props: Props ) {
         super( props )
         this.connect()
         this.refSoumah = React.createRef()
         this.bgAudio.play()
+        this.bgAudioStart = window.performance.now()
+        
         this.state = {
             serverState: 'loading',
             applicationState: undefined,
@@ -129,7 +133,7 @@ export class MainMenu extends React.Component<Props, State> {
                 transform += `scaleX(${scale}) scaleY(${scale}) `
                 if ( attr_scale )
                     transform += `scaleX(${attr_scale}) scaleY(${attr_scale}) `
-                soumah.style.transform = transform
+                // soumah.style.transform = transform
             }
             requestAnimationFrame( animate )
         }
@@ -162,6 +166,12 @@ export class MainMenu extends React.Component<Props, State> {
                         onClick={() => this.onAnyClick()}
                 ></img>)
                 })}
+                <div className='lyrics-div'>
+                    <LyricsComponent
+                        lyricsFile='lyrics.json'
+                        tStart={this.bgAudioStart}
+                    />
+                </div>
             </div>
             {serverState === 'loading' ?
                 <Loading/> :
