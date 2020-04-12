@@ -16,26 +16,39 @@ interface State {
     serverState: 'loading' | 'offline' | 'online',
     applicationState: undefined | ApplicationState,
     unsupportedLanguageCodes: undefined | string[]
-    bgAudioStart?: number
+    bgAudioStart?: number,
+    t: number
 }
 export class MainMenu extends React.Component<Props, State> {
     refSoumah: React.RefObject<HTMLImageElement>
-    bgAudio: HTMLAudioElement = new Audio('tamouya_gouli.mp3')
+    audioReady: boolean = false
+    bgAudio: HTMLAudioElement = new Audio()
     constructor( props: Props ) {
         super( props )
         this.connect()
         this.refSoumah = React.createRef()
-        this.bgAudio.addEventListener( 'playing', () => {
+        const check = () => {
+            if ( this.state.bgAudioStart === undefined && this.bgAudio.currentTime > 0 ) {
+                this.setState({
+                    bgAudioStart: window.performance.now()
+                })
+            }
             this.setState({
-                bgAudioStart: window.performance.now()
+                t: window.performance.now()
             })
-        } )
-        // this.bgAudio.play()
+            requestAnimationFrame(check)
+        }
+        requestAnimationFrame(check)
+        this.bgAudio.addEventListener( 'canplay', ()  => {
+            this.audioReady = true
+        })
+        this.bgAudio.src = 'tamouya_gouli.mp3'
         
         this.state = {
             serverState: 'loading',
             applicationState: undefined,
-            unsupportedLanguageCodes: undefined
+            unsupportedLanguageCodes: undefined,
+            t: window.performance.now()
         }
     }
     handleServerError = ( e: Error ) => {
@@ -152,11 +165,18 @@ export class MainMenu extends React.Component<Props, State> {
     }
     avatars = [
         {
-            scale: 1, src: ['momo.png', 'merkit.png', 'baretti.png']
+            scale: 1, src: ['momo.png']
+            // scale: 1, src: ['momo_flute.png']
         },
         // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
     ]
     render() {
+        // 4:47 -6:28
+        const t = this.state.t
+        const isFlute = (this.state.bgAudioStart !== undefined &&
+            (t - this.state.bgAudioStart) >= 1000 * (4*60 + 47) &&
+            (t - this.state.bgAudioStart) <= 1000 * (6*60 + 28))
+
         const { serverState } = this.state
         return <div className='expand' onClick={() => this.onAnyClick()}>
             <div className='backgroundDiv' onClick={() => this.onAnyClick()}>
@@ -170,7 +190,7 @@ export class MainMenu extends React.Component<Props, State> {
                     return avatar.src.map((url, i2) => <img
                         key={i+'a'+i2}
                         className='soumah'
-                        src={url}
+                        src={(!isFlute) ? url : 'momo_flute.png'}
                         {...props}
                         onClick={() => this.onAnyClick()}
                 ></img>)
