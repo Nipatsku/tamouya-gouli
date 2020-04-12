@@ -1,6 +1,7 @@
 
 body {
     margin: 0px 0px 0px 0px;
+    overflow: hidden;
 }
 span, p, h1, h2, h3, h4, h5 {
     padding: 2px 2px 2px 2px;
@@ -34,7 +35,7 @@ h1 {
     margin-bottom: 16px;
 }
 .backgroundDiv {
-    position: fixed;
+    position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
@@ -42,11 +43,16 @@ h1 {
     justify-content: space-around;
 }
 .background {
+    /* position: absolute; */
     height: 100%;
     opacity: 1;
 }
+.backgroundElement {
+    position: absolute;
+    left: calc( .5 * ( 100vw - 1200px ) );
+}
 .soumah {
-    position: fixed;
+    position: absolute;
     opacity: 1;
     height: 100%;
 }

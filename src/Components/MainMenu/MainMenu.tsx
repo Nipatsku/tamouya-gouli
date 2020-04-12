@@ -41,7 +41,13 @@ export class MainMenu extends React.Component<Props, State> {
         requestAnimationFrame(check)
         this.bgAudio.addEventListener( 'canplay', ()  => {
             this.audioReady = true
+            // this.bgAudio.currentTime = 3 * 60 + 45
         })
+        this.bgAudio.addEventListener( 'ended', () => {
+            this.setState({
+                bgAudioStart: undefined
+            })
+        } )
         this.bgAudio.src = 'tamouya_gouli.mp3'
         
         this.state = {
@@ -160,14 +166,14 @@ export class MainMenu extends React.Component<Props, State> {
                 soumah.style.transform = transform
             }
         }
-        let tStart: number
+        let tStart: number | undefined
         animate()
     }
     avatars = [
         {
             scale: 1, src: ['momo.png']
             // scale: 1, src: ['momo_flute.png']
-        },
+        }
         // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
     ]
     render() {
@@ -177,11 +183,15 @@ export class MainMenu extends React.Component<Props, State> {
             (t - this.state.bgAudioStart) >= 1000 * (3*60 + 52) &&
             (t - this.state.bgAudioStart) <= 1000 * (5*60 + 34))
 
+        // 1:57 - 3:00
+        const isXylophone = (this.state.bgAudioStart !== undefined &&
+            (t - this.state.bgAudioStart) >= 1000 * (1*60 + 57) &&
+            (t - this.state.bgAudioStart) <= 1000 * (3*60 + 0))
+
         const { serverState } = this.state
         return <div className='expand' onClick={() => this.onAnyClick()}>
             <div className='backgroundDiv' onClick={() => this.onAnyClick()}>
                 <img
-                     onClick={() => this.onAnyClick()}
                     className='background'
                     src='background.png'
                 />
@@ -202,6 +212,15 @@ export class MainMenu extends React.Component<Props, State> {
                     />
                 </div>}
             </div>
+            {isXylophone && this.renderXylophoneStick( t, false )}
+            {isXylophone && this.renderXylophoneStick( t, true )}
+            {isXylophone && 
+                <img
+                    className='backgroundElement'
+                    style={{ height: '100vh' }}
+                    src='xylophone.png'
+                />
+            }
             {serverState === 'loading' ?
                 <Loading/> :
                 <div className='main'>
@@ -212,6 +231,23 @@ export class MainMenu extends React.Component<Props, State> {
                 </div>
             }
         </div>
+    }
+    renderXylophoneStick( t: number, left: boolean ) {
+        const cycleDuration = 120
+        t = left ? t : t + cycleDuration
+        const firstPhase = t % ( cycleDuration * 2 ) <= cycleDuration ? true : false
+        let x = ( t % cycleDuration ) / cycleDuration
+        if ( !firstPhase ) x = 1 - x
+        return <img
+            src='xylophone_stick.png'
+            className='backgroundElement'
+            style={{
+                bottom: `${left ? 0 : 60}px`,
+                left: `calc(50vw + ${left ? 150: -300}px)`,
+                transform: `rotateZ(${ x * (left?-90:90) }deg)`,
+                transformOrigin: 'bottom'
+            }}
+        ></img>
     }
     renderServerOnline() {
         const { applicationState } = this.state
