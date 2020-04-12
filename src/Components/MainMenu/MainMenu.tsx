@@ -171,11 +171,11 @@ export class MainMenu extends React.Component<Props, State> {
         // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
     ]
     render() {
-        // 4:47 -6:28
+        // 3:52 -6:28
         const t = this.state.t
         const isFlute = (this.state.bgAudioStart !== undefined &&
-            (t - this.state.bgAudioStart) >= 1000 * (4*60 + 47) &&
-            (t - this.state.bgAudioStart) <= 1000 * (6*60 + 28))
+            (t - this.state.bgAudioStart) >= 1000 * (3*60 + 52) &&
+            (t - this.state.bgAudioStart) <= 1000 * (5*60 + 34))
 
         const { serverState } = this.state
         return <div className='expand' onClick={() => this.onAnyClick()}>
