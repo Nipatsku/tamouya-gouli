@@ -186,7 +186,7 @@ export class MainMenu extends React.Component<Props, State> {
         // 1:57 - 3:00
         const isXylophone = (this.state.bgAudioStart !== undefined &&
             (t - this.state.bgAudioStart) >= 1000 * (1*60 + 57) &&
-            (t - this.state.bgAudioStart) <= 1000 * (3*60 + 0))
+            (t - this.state.bgAudioStart) <= 1000 * (3*60 + 0)) || true
 
         const { serverState } = this.state
         return <div className='expand' onClick={() => this.onAnyClick()}>
@@ -216,8 +216,7 @@ export class MainMenu extends React.Component<Props, State> {
             {isXylophone && this.renderXylophoneStick( t, true )}
             {isXylophone && 
                 <img
-                    className='backgroundElement'
-                    style={{ height: '100vh' }}
+                    style={{ position: 'absolute', bottom: 0, right: '35vw' }}
                     src='xylophone.png'
                 />
             }

@@ -49,7 +49,7 @@ h1 {
 }
 .backgroundElement {
     position: absolute;
-    left: calc( .5 * ( 100vw - 1200px ) );
+    right: 50vw;
 }
 .soumah {
     position: absolute;
