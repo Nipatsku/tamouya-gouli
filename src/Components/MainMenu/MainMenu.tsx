@@ -23,6 +23,7 @@ export class MainMenu extends React.Component<Props, State> {
     refSoumah: React.RefObject<HTMLImageElement>
     audioReady: boolean = false
     bgAudio: HTMLAudioElement = new Audio()
+    pointerLocation?: { x: number, y: number }
     constructor( props: Props ) {
         super( props )
         this.connect()
@@ -145,7 +146,7 @@ export class MainMenu extends React.Component<Props, State> {
                 const soumah = objects[i] as any
                 const attr_index = soumah.getAttribute('index')
                 const attr_scale = soumah.getAttribute('scale')
-                const t = tStart ? 2.0 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000 : 0
+                const t = tStart ? 2 * ((window.performance.now( ) + attr_index * 1500) - tStart) / 1000 : 0
 
                 let rotateX: number = 0
                 let rotateY: number = 0
@@ -153,7 +154,7 @@ export class MainMenu extends React.Component<Props, State> {
                 let skewX: number = 0
                 let skewY: number = Math.sin( t ) * 12
                 let scale: number = 1 + Math.sin( t * 2 ) * .15
-                let translateX: number = -120 + Math.sin( t ) * 150
+                let translateX: number = -90 + Math.sin( t ) * 150
                 let translateY: number = 50 + Math.abs( Math.sin( t ) ) * 100
 
                 let transform = ``
@@ -163,15 +164,56 @@ export class MainMenu extends React.Component<Props, State> {
                 transform += `scaleX(${scale}) scaleY(${scale}) `
                 if ( attr_scale )
                     transform += `scaleX(${attr_scale}) scaleY(${attr_scale}) `
+                if ( 'src' in soumah && soumah.src.includes( 'eye.png' ) ) {
+                    let addX = 0
+                    let addY = 0
+                    const isLeft = soumah.src.includes( 'leye.png' )
+                    const ang = Math.PI * ( rotateZ + 100 ) / 180
+                    const ref = {
+                        x: window.innerWidth * .5 + 10 * (isLeft ? 1 : -1) - Math.cos(ang) * soumah.width,
+                        y: window.innerHeight - Math.sin(ang) * soumah.height * .7
+                    }
+                    // console.log(ref, '->', this.pointerLocation) 230 161
+                    if ( this.pointerLocation ) {
+                        const delta = {
+                            x: this.pointerLocation.x - ref.x,
+                            y: this.pointerLocation.y - ref.y
+                        }
+                        const dist = Math.sqrt( Math.pow( delta.x, 2 ) + Math.pow( delta.y, 2 ) )
+                        const eyeOffset = Math.min( Math.sqrt( dist ) * 1.0, 5 )
+                        const deltaAng = Math.atan2(this.pointerLocation.y - ref.y, this.pointerLocation.x - ref.x)
+                        const eyeOffsetX = Math.cos( deltaAng ) * eyeOffset
+                        const eyeOffsetY = Math.sin( deltaAng ) * eyeOffset
+                        addX = eyeOffsetX
+                        addY = eyeOffsetY
+                    }
+
+                    transform += `translateX(${addX}px) translateY(${addY}px) `
+                }
                 soumah.style.transform = transform
             }
         }
         let tStart: number | undefined
         animate()
+
+        document.addEventListener( 'mousemove', (e) => {
+            this.pointerLocation = {
+                x: e.clientX,
+                y: e.clientY
+            }
+        }, true )
+        document.addEventListener( 'touchmove', (e) => {
+            if ( e.changedTouches.length === 0 )
+                return
+            this.pointerLocation = {
+                x: e.changedTouches[0].clientX,
+                y: e.changedTouches[0].clientY
+            }
+        }, true )
     }
     avatars = [
         {
-            scale: 1, src: ['momo.png']
+            scale: 1, src: ['momo.png', 'leye.png', 'reye.png']
             // scale: 1, src: ['momo_flute.png']
         }
         // { scale: .6, src: [ 'https://img.pngio.com/donald-trump-united-states-republican-party-face-mask-bill-donald-trump-face-png-1846_2496.png' ] }
@@ -186,7 +228,7 @@ export class MainMenu extends React.Component<Props, State> {
         // 1:57 - 3:00
         const isXylophone = (this.state.bgAudioStart !== undefined &&
             (t - this.state.bgAudioStart) >= 1000 * (1*60 + 57) &&
-            (t - this.state.bgAudioStart) <= 1000 * (3*60 + 0)) || true
+            (t - this.state.bgAudioStart) <= 1000 * (3*60 + 0))
 
         const { serverState } = this.state
         return <div className='expand' onClick={() => this.onAnyClick()}>
@@ -200,7 +242,7 @@ export class MainMenu extends React.Component<Props, State> {
                     return avatar.src.map((url, i2) => <img
                         key={i+'a'+i2}
                         className='soumah'
-                        src={(!isFlute) ? url : 'momo_flute.png'}
+                        src={(isFlute && url === 'momo.png') ? 'momo_flute.png' : url}
                         {...props}
                         onClick={() => this.onAnyClick()}
                 ></img>)
@@ -224,7 +266,7 @@ export class MainMenu extends React.Component<Props, State> {
                 <Loading/> :
                 <div className='main'>
                     {serverState === 'offline' ?
-                        <Text>Server offline</Text> :
+                        <Text></Text> : //Server offline
                         this.renderServerOnline()
                     }
                 </div>
