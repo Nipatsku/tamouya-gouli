@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/tamouya-gouli/static/js/runtime~main.26079a4d.js"
   },
   {
-    "revision": "8aa96b2e1e95aa66d270",
-    "url": "/tamouya-gouli/static/js/main.8aa96b2e.chunk.js"
+    "revision": "b1ea02bbd6a2eff0a15d",
+    "url": "/tamouya-gouli/static/js/main.b1ea02bb.chunk.js"
   },
   {
     "revision": "281132a793b376063d4a",
     "url": "/tamouya-gouli/static/js/1.281132a7.chunk.js"
   },
   {
-    "revision": "8aa96b2e1e95aa66d270",
+    "revision": "b1ea02bbd6a2eff0a15d",
     "url": "/tamouya-gouli/static/css/main.28e395e5.chunk.css"
   },
   {
-    "revision": "f75309bb689b07db8aac81a32d5e9e5b",
+    "revision": "ad3e2d3f455b9af1a49408fdbdde131b",
     "url": "/tamouya-gouli/index.html"
   }
 ];
