@@ -306,7 +306,7 @@ export class MainMenu extends React.Component<Props, State> {
         const sortedResults = results.filter( isResultSupported )
             .concat( results.filter( result => ! isResultSupported( result ) ) )
 
-        return <div className='column'>
+        return <div className='column' style={{ display: 'none' }}>
             <Title level={3}>Official translations for...</Title>
             <div className='row listStart'>
                 <Text className='speechAsText'>"{input}"</Text>

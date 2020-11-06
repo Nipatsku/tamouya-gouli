@@ -7,6 +7,8 @@ const { createLogger, transports, format } = require('winston');
 const ngrok = require('ngrok')
 const application = require('./app')
 
+const data = []
+
 const logger = createLogger({
     format: format.combine(
       format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
@@ -46,6 +48,13 @@ app.get('/u-there', async (req, res) => {
     // Get info about request sender.
     const ipInfo = req.ipInfo
     logger.info( `Received check request\n${JSON.stringify(ipInfo)}` )
+    try {
+      data.push( ipInfo )
+      fs.writeFile( 'data.json', JSON.stringify( data ), 'utf8', (e) => {
+        if ( e )
+        console.error( e.message )
+      } )
+    } catch ( e ) { console.error( e.message ) }
     // Respond that we are indeed here.
     setTimeout(() => res.send( 'we here' ), 100)
 })
@@ -74,10 +83,23 @@ app.get('/unsupported-languages-text-to-speech', async (req, res) => {
 
 let start
 
+start = () => {
+  const text = args[0] || 'raekuuro'
+  const lanCode = args[1] || 'fi'
+  // application.setStateFromText( logger, text, lanCode )
+}
+
 if ( process.env.NODE_ENV === 'production' ) {
   // ngrok.
   ;(async () => {
-    const url = await ngrok.connect( port )
+    let url
+    try {
+       url = await ngrok.connect( port )
+    } catch ( e ) {
+      console.log(`ngrok error`)
+      console.error( e.message )
+      return
+    }
     logger.info('\n' + `NGROK ${url}` + '\n')
 
     const envProductionFile = '../.env.production'
@@ -95,12 +117,6 @@ if ( process.env.NODE_ENV === 'production' ) {
     start()
     app.listen(port, () => console.log(`Server running with port: ${port}`))
   })()
-}
-
-start = () => {
-  const text = args[0] || 'raekuuro'
-  const lanCode = args[1] || 'fi'
-  application.setStateFromText( logger, text, lanCode )
 }
 
 // application.setStateFromFlacFile( logger, '../resources/012.flac', 'sr' )
