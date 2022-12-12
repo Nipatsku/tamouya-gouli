@@ -12,7 +12,7 @@
     "@google-cloud/speech": "^3.6.0",
     "@google-cloud/translate": "^5.3.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-ip": "^1.0.4",
     "nedb": "^1.8.0",
     "ngrok": "^3.2.7",
